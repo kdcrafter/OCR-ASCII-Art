@@ -3,36 +3,86 @@ import javax.swing.*;
 
 public class Interface {
     //the interface itself
-    JFrame frame;
+    private JFrame frame;
 
-    //components of the interface
-    JButton clear;
-    JButton save;
-    JPanel drawing;
+    //the left side of the interface
+    private JTextField drawing; //will eventually need to be type Drawing
+    //JButton clear;
+
+    //the center components of the interface
+    private JButton toText;
+
+    //the right side of the interface
+    private JTextField resultText;
+
+    //other stuff in the class
+    private GridBagConstraints gbc;
+
 
     public Interface() {
+        gbc = new GridBagConstraints();
+
+        createInterface();
+    }
+
+    //creates everything in the GUI interface
+    public void createInterface() {
         //create the GUI
-        this.frame = new JFrame("Paint ASCII");
+        frame = new JFrame("Paint ASCII");
 
         //edit the frame
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  //full screen
-        this.frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  //full screen
+        frame.setLayout(new GridBagLayout());
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        //set up the top part of the interface
-        this.clear = new JButton("Clear");
-        this.clear.setPreferredSize(new Dimension(this.frame.getWidth()/2, this.frame.getHeight()/10));
-        this.frame.getContentPane().add(this.clear, BorderLayout.LINE_START);
+        //add the components
+        drawing = new JTextField();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.5;
+        gbc.weighty = 0;
+        gbc.anchor = GridBagConstraints.LAST_LINE_END;
+        gbc.insets = new Insets(0, 50, 50, 50);
+        frame.add(drawing, gbc);
 
-        this.save = new JButton("Save");
-        this.save.setPreferredSize(new Dimension(this.frame.getWidth()/2, this.frame.getHeight()/10));
-        this.frame.getContentPane().add(this.save, BorderLayout.LINE_END);
+        toText = new JButton();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 2;
+        gbc.gridx = 2;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.5;
+        gbc.weighty = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        frame.add(toText, gbc);
 
-        this.drawing = new JPanel();
-        this.drawing.setPreferredSize(new Dimension(this.frame.getWidth(), (int) (this.frame.getHeight() * 0.9)));
-        this.frame.getContentPane().add(this.drawing, BorderLayout.SOUTH);
+        resultText = new JTextField();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 4;
+        gbc.gridx = 4;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.5;
+        gbc.weighty = 0;
+        gbc.anchor = GridBagConstraints.LAST_LINE_START;
+        gbc.insets = new Insets(0, 50, 50, 50);
+        frame.add(resultText, gbc);
 
-        this.frame.pack();
-        this.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  //full screen
+        //show the interface
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    //sets the properties of the components
+    private void setGridBagConstraints(int y, int x, int width, int height) {
+        gbc.gridy = y;
+        gbc.gridx = x;
+        gbc.gridwidth = width;
+        gbc.gridheight = height;
     }
 }

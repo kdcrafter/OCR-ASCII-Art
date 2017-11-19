@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Drawing extends JPanel {
+public class Drawing extends JComponent {
     Image img = null; //the thing that will be drawn on
     Graphics2D draw;  //used to draw lines
 
