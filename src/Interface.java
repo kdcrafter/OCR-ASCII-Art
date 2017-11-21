@@ -1,4 +1,10 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Interface {
@@ -6,7 +12,7 @@ public class Interface {
     private JFrame frame;
 
     //the left side of the interface
-    private JPanel drawing; //will eventually need to be type Drawing
+    private Drawing drawing; //will eventually need to be type Drawing
     //JButton clear;
 
     //the center components of the interface
@@ -32,34 +38,56 @@ public class Interface {
         frame.setSize(1600, 700);
         frame.setResizable(false);
         BorderLayout layout = new BorderLayout();
-        layout.setVgap(10);
-        layout.setHgap(10);
+        //layout.setVgap(50);
+        //layout.setHgap(50);
         frame.setLayout(layout);
 
         //add components
-        drawing = new JPanel(); //put canvas on left side
+        drawing = new Drawing(); //put canvas on left side
         drawing.setPreferredSize(new Dimension(700, 700));
         frame.add(drawing, BorderLayout.LINE_START);
-
-        center = new JPanel();  //create a center panel
-        center.setPreferredSize(new Dimension(100, 700));
-
-        toText = new JButton("To Text ->"); //put to text button in top center
-        toText.setPreferredSize(new Dimension(100, 350));
-        center.add(toText, BorderLayout.PAGE_START);
-
-        toText = new JButton("Clear");  //put clear button in bottom center
-        toText.setPreferredSize(new Dimension(100, 350));
-        center.add(toText, BorderLayout.PAGE_END);
-
-        frame.add(center, BorderLayout.CENTER); //add center
 
         resultText = new JTextField();  //add text on right side
         resultText.setPreferredSize(new Dimension(700, 700));
         frame.add(resultText, BorderLayout.LINE_END);
 
+        center = new JPanel();  //create a center panel
+        center.setPreferredSize(new Dimension(100, 700));
+
+        toText = new JButton("To Text ->"); //put to text button in top center
+        toText.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                resultText.setText(toText());   //set the text field to the text version of the drawing
+            }
+        });
+        toText.setPreferredSize(new Dimension(100, 350));
+        center.add(toText, BorderLayout.PAGE_START);
+
+        clear = new JButton("Clear");  //put clear button in bottom center
+        clear.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                drawing.clear();
+            }
+        });
+        clear.setPreferredSize(new Dimension(100, 350));
+        center.add(clear, BorderLayout.PAGE_END);
+
+        frame.add(center, BorderLayout.CENTER); //add center
+
         //show the interface
         frame.pack();
         frame.setVisible(true);
+    }
+
+    private String toText() {
+        if (drawing != null) {
+            BufferedImage img = new BufferedImage(drawing.getWidth(), drawing.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+            System.out.println(img.toString());
+
+            return "it worked";
+        }
+        else {
+            return "";
+        }
     }
 }
