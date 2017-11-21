@@ -10,6 +10,8 @@ public class Interface {
     //JButton clear;
 
     //the center components of the interface
+    private JPanel center;
+    private JButton clear;
     private JButton toText;
 
     //the right side of the interface
@@ -35,15 +37,24 @@ public class Interface {
         frame.setLayout(layout);
 
         //add components
-        drawing = new JPanel();
+        drawing = new JPanel(); //put canvas on left side
         drawing.setPreferredSize(new Dimension(700, 700));
         frame.add(drawing, BorderLayout.LINE_START);
 
-        toText = new JButton("To Text ->");
-        toText.setPreferredSize(new Dimension(100, 100));
-        frame.add(toText, BorderLayout.CENTER);
+        center = new JPanel();  //create a center panel
+        center.setPreferredSize(new Dimension(100, 700));
 
-        resultText = new JTextField();
+        toText = new JButton("To Text ->"); //put to text button in top center
+        toText.setPreferredSize(new Dimension(100, 350));
+        center.add(toText, BorderLayout.PAGE_START);
+
+        toText = new JButton("Clear");  //put clear button in bottom center
+        toText.setPreferredSize(new Dimension(100, 350));
+        center.add(toText, BorderLayout.PAGE_END);
+
+        frame.add(center, BorderLayout.CENTER); //add center
+
+        resultText = new JTextField();  //add text on right side
         resultText.setPreferredSize(new Dimension(700, 700));
         frame.add(resultText, BorderLayout.LINE_END);
 
