@@ -35,7 +35,7 @@ public class Interface {
 
         //edit the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1600, 700);
+        frame.setSize(1900, 900);
         frame.setResizable(false);
         BorderLayout layout = new BorderLayout();
         //layout.setVgap(50);
@@ -44,23 +44,24 @@ public class Interface {
 
         //add components
         drawing = new Drawing(); //put canvas on left side
-        drawing.setPreferredSize(new Dimension(700, 700));
+        drawing.setPreferredSize(new Dimension(900, 900));
         frame.add(drawing, BorderLayout.LINE_START);
 
         resultText = new JTextField();  //add text on right side
-        resultText.setPreferredSize(new Dimension(700, 700));
+        resultText.setPreferredSize(new Dimension(900, 900));
         frame.add(resultText, BorderLayout.LINE_END);
 
         center = new JPanel();  //create a center panel
-        center.setPreferredSize(new Dimension(100, 700));
+        center.setPreferredSize(new Dimension(100, 900));
 
+        //TODO: be able to change font size (automatically or manually)
         toText = new JButton("To Text ->"); //put to text button in top center
         toText.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 resultText.setText(toText());   //set the text field to the text version of the drawing
             }
         });
-        toText.setPreferredSize(new Dimension(100, 350));
+        toText.setPreferredSize(new Dimension(100, 450));
         center.add(toText, BorderLayout.PAGE_START);
 
         clear = new JButton("Clear");  //put clear button in bottom center
@@ -69,13 +70,14 @@ public class Interface {
                 drawing.clear();
             }
         });
-        clear.setPreferredSize(new Dimension(100, 350));
+        clear.setPreferredSize(new Dimension(100, 450));
         center.add(clear, BorderLayout.PAGE_END);
 
         frame.add(center, BorderLayout.CENTER); //add center
 
         //show the interface
         frame.pack();
+        frame.setLocationRelativeTo(null);  //puts gui in center of screen
         frame.setVisible(true);
     }
 

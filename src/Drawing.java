@@ -3,25 +3,59 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Drawing extends JPanel {
-    Image img = null; //the thing that will be drawn on
+    boolean canvasInit = false;
     Graphics2D draw;  //used to draw lines
 
     //the current and previous coordinates of the mouse
-    int currX, currY, prevX, prevY;
+    private int currX, currY, prevX, prevY;
 
+    //adds mouse listener's to add drawing functionality
     public Drawing() {
-        setBorder(BorderFactory.createLineBorder(Color.black));
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //set the coordinates to the location the user clicked on
+                currX = e.getX();
+                currY = e.getY();
+                prevX = currX;
+                prevY = currY;
+            }
+
+            @Override
+            public void mouseDragged (MouseEvent e){
+                //get the new location of the mouse
+                currX = e.getX();
+                currY = e.getY();
+
+                //draw a line between new and old points
+                if (draw != null) {
+                    draw.drawLine(prevX, prevY, currX, currY);
+                    repaint();
+                }
+
+                //set the coordinates to the location the user clicked on
+                prevX = currX;
+                prevY = currY;
+            }
+        };
+
+        addMouseListener(mouseAdapter);
+        addMouseMotionListener(mouseAdapter);
     }
 
-
-    //initialize the drawing with a blank canvas
+    //initialize the drawing with a blank canvas with a black border
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        draw = (Graphics2D) g;
+        //only do these lines at the beginning of the program
+        if (canvasInit == false) {
+            draw = (Graphics2D) g.create();
+            setBorder(BorderFactory.createLineBorder(Color.black));
+            clear();    //set white background
 
-        clear();
+            canvasInit = true;
+        }
     }
 
+    //clear the canvas
     public void clear() {
         if (draw != null) {
             //fill the canvas with a white rect
