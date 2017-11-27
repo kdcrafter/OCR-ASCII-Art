@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Drawing extends JPanel {
-    boolean canvasInit = false;
+    Image image; //the image that's being drawn on
     Graphics2D draw;  //used to draw lines
 
     //the current and previous coordinates of the mouse
@@ -45,14 +45,15 @@ public class Drawing extends JPanel {
 
     //initialize the drawing with a blank canvas with a black border
     protected void paintComponent(Graphics g) {
-        //only do these lines at the beginning of the program
-        if (canvasInit == false) {
-            draw = (Graphics2D) g.create();
-            setBorder(BorderFactory.createLineBorder(Color.black));
-            clear();    //set white background
-
-            canvasInit = true;
+        //set up the image canvas if hasn't already been set up
+        if(image == null){
+            image = createImage(getSize().width, getSize().height);
+            draw = (Graphics2D) image.getGraphics();
+            clear();
         }
+
+        //draw on the canvas
+        g.drawImage(image, 0, 0, null);
     }
 
     //clear the canvas
