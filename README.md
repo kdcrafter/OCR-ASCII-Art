@@ -1,1 +1,1 @@
-# PaintASCII
+# Paint Character Recognizer
