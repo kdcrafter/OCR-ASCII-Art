@@ -1,1 +1,1 @@
-# Paint Character Recognizer
+# Paint Number Converter
