@@ -2,15 +2,20 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Drawing extends JPanel {
+/*
+ * A GUI component that allows the user to draw lines on the canvas
+ */
+public class Canvas extends JPanel {
     Image image; //the image that's being drawn on
     Graphics2D draw;  //used to draw lines
 
     //the current and previous coordinates of the mouse
     private int currX, currY, prevX, prevY;
 
-    //adds mouse listener's to add drawing functionality
-    public Drawing() {
+    /*
+     * Creates a new instance and specifies when lines should be drawn on the canvas
+     */
+    public Canvas() {
         MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -43,7 +48,12 @@ public class Drawing extends JPanel {
         addMouseMotionListener(mouseAdapter);
     }
 
-    //initialize the drawing with a blank canvas with a black border
+    /*
+     * Initializes the canvas with a blank canvas with a black border
+     * This function isn't called directly
+     *
+     * @param   g   A Graphics instance used to draw components on the canvas
+     */
     protected void paintComponent(Graphics g) {
         //set up the image canvas if hasn't already been set up
         if(image == null){
@@ -56,7 +66,10 @@ public class Drawing extends JPanel {
         g.drawImage(image, 0, 0, null);
     }
 
-    //clear the canvas
+    /*
+     * Clears the canvas screen by covering it with a white rectangle
+     * Called when the clear button is pressed
+     */
     public void clear() {
         if (draw != null) {
             //fill the canvas with a white rect
