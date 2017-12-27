@@ -1,0 +1,14 @@
+note: add graphs for each test (so file needs to be something other than a text file)
+
+TEST 1:
+Things that stayed constant:
+
+
+Independent variable values and results:
+
+
+TEST 2:
+Things that stayed constant:
+
+
+Independent variable values and results:
