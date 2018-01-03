@@ -2,6 +2,7 @@ from sklearn.neural_network import MLPClassifier
 import os
 import struct
 import numpy as np
+from scipy import misc as sc
 
 class NeuralNetworkFit():
     """
@@ -19,13 +20,29 @@ class NeuralNetworkFit():
         self.FILENAME = "Weights.txt" #the file to store the weights in
 
         #get the data
-        #TODO: see about making the inputs and outputs generators instead of iterators
         self.trainInputs, self.trainOutputs = self.getTrainData()
         self.testInputs, self.testOutputs = self.getTestData()
 
+        #lower resolution of images/inputs
+        def resize(image):
+            image.resize(28, 28)
+            return sc.imresize(image, 50)
+
+        self.trainInputs = np.apply_along_axis(resize, 1, self.trainInputs)
+        self.testInputs = np.apply_along_axis(resize, 1, self.testInputs)
+
+        #resize inputs
+        self.trainInputs = self.trainInputs.reshape(60000, 14*14)
+        self.testInputs = self.testInputs.reshape(10000, 14*14)
+
+        #normalize data
+        self.trainInputs = self.trainInputs / 255.0
+        self.testInputs = self.testInputs / 255.0
+
         #fit the data
-        self.clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(1000, 500, 100), random_state=1)
-        #self.clf.fit(self.inputs, self.outputs)
+        self.clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(1000, 500, 100))   #may take a significant amount of time
+
+        self.clf.fit(self.trainInputs, self.trainOutputs)
 
         #write the data
         self.writeWeights()
@@ -33,6 +50,8 @@ class NeuralNetworkFit():
     def getTrainData(self):
         """
         get the training data from the MNIST dataset in the form of numpy arrays
+        each element in the inputs array is a 28 x 28 numpy or a image
+        each element in the outputs array is a integer form 0-9 or a label
 
         :return: the inputs and the outputs of the neural network as a numpy array
         """
@@ -49,7 +68,7 @@ class NeuralNetworkFit():
 
         trainImageFile = open(trainImageFileName, 'rb')
         trainImageFile.seek(16) #skip unessesary info
-        inputs = np.fromfile(trainImageFile, dtype=np.uint8).reshape(len(outputs), 28, 28) #store as int8's as values are from 0-255
+        inputs = np.fromfile(trainImageFile, dtype=np.uint8).reshape(len(outputs), 28*28) #store as int8's as values are from 0-255
         trainImageFile.close()
 
         return inputs, outputs
@@ -57,6 +76,8 @@ class NeuralNetworkFit():
     def getTestData(self):
         """
         get the testing data from the MNIST dataset in the form of numpy arrays
+        each element in the inputs array is a 28 x 28 numpy or a image
+        each element in the outputs array is a integer form 0-9 or a label
 
         :return: the inputs and the outputs of the neural network as a numpy array
         """
@@ -73,7 +94,7 @@ class NeuralNetworkFit():
 
         testImageFile = open(testImageFileName, 'rb')
         testImageFile.seek(16) #skip unessesary info
-        inputs = np.fromfile(testImageFile, dtype=np.uint8).reshape(len(outputs), 28, 28) #store as int8's as values are from 0-255
+        inputs = np.fromfile(testImageFile, dtype=np.uint8).reshape(len(outputs), 28*28) #store as int8's as values are from 0-255
         testImageFile.close()
 
         return inputs, outputs
