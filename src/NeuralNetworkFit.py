@@ -3,6 +3,7 @@ import os
 import struct
 import numpy as np
 from scipy import misc as sc
+import time
 
 class NeuralNetworkFit():
     """
@@ -18,31 +19,37 @@ class NeuralNetworkFit():
         #constants
         self.PATH = "../Data/"  #the directory the data is in
         self.FILENAME = "Weights.txt" #the file to store the weights in
+        self.HIDDEN_LAYER_SIZE = (1000, 500, 100)
 
         #get the data
         self.trainInputs, self.trainOutputs = self.getTrainData()
         self.testInputs, self.testOutputs = self.getTestData()
 
-        #lower resolution of images/inputs
-        def resize(image):
-            image.resize(28, 28)
-            return sc.imresize(image, 50)
-
-        self.trainInputs = np.apply_along_axis(resize, 1, self.trainInputs)
-        self.testInputs = np.apply_along_axis(resize, 1, self.testInputs)
-
-        #resize inputs
-        self.trainInputs = self.trainInputs.reshape(60000, 14*14)
-        self.testInputs = self.testInputs.reshape(10000, 14*14)
+        """-----would only save about 2 minutes if added in-----"""
+        # #lower resolution of images/inputs
+        # def resize(image):
+        #     image.resize(28, 28)
+        #     return sc.imresize(image, 50)
+        #
+        # self.trainInputs = np.apply_along_axis(resize, 1, self.trainInputs)
+        # self.testInputs = np.apply_along_axis(resize, 1, self.testInputs)
+        #
+        # #resize inputs (done only if the image resolution os lowered)
+        # self.trainInputs = self.trainInputs.reshape(60000, 14*14)
+        # self.testInputs = self.testInputs.reshape(10000, 14*14)
+        """-----------------------------------------------------"""
 
         #normalize data
         self.trainInputs = self.trainInputs / 255.0
         self.testInputs = self.testInputs / 255.0
 
         #fit the data
-        self.clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(1000, 500, 100))   #may take a significant amount of time
+        self.clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(3, 3, 3))   #may take a significant amount of time
 
-        self.clf.fit(self.trainInputs, self.trainOutputs)
+        print("start fitting NN")
+        start = time.time()
+        self.clf.fit(self.trainInputs[0:50], self.trainOutputs[0:50])
+        print("end fitting NN: ", time.time() - start)
 
         #write the data
         self.writeWeights()
@@ -107,7 +114,8 @@ class NeuralNetworkFit():
         """
 
         # get weights
-        #weights = self.clf.coefs_
+        weights = self.clf.coefs_
+        print(weights[1])
 
         # format weights
 

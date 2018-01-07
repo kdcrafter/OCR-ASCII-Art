@@ -6,21 +6,21 @@ import javax.swing.*;
 
 /*
  * Specifies the GUI interface, all of its components, and logic
- * The GUI will be created whenever a object is instantiated
+ * The GUI will be created whenever a Interface object is instantiated
  */
 public class Interface {
     //the entire interface
     private JFrame frame;
 
-    //the left side of the interface
+    //where the user draws stuff on the left of the interface
     private Canvas canvas;
 
-    //the center components of the interface
+    //the center components to clear the canvas and activate resultText
     private JPanel center;
     private JButton clear;
     private JButton toText;
 
-    //the right side of the interface
+    //on the right of the interface, shows the text version of the user drawing
     private JTextField resultText;
 
     /*
