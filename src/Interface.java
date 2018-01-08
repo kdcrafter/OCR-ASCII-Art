@@ -1,8 +1,11 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import javax.swing.*;
+
+import java.awt.image.BufferedImage;
+import java.util.Scanner;
+import java.io.*;
 
 /*
  * Specifies the GUI interface, all of its components, and logic
@@ -95,9 +98,17 @@ public class Interface {
     private String toText() {
         if (canvas != null) { //if drawing has been instantiated
             BufferedImage img = new BufferedImage(canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
-            System.out.println(img.toString());
 
-            return "it worked";
+            try {
+                Process p = Runtime.getRuntime().exec(
+                    "python C:/Users/Kurti/IdeaProjects/PaintASCII/src/NN_Predict.py");
+                Scanner reader = new Scanner(p.getInputStream());
+                return reader.nextLine();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "error";
+            }
         }
         else { //return empty when drawing hasn't been instantiated
             return "";
