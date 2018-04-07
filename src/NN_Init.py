@@ -7,7 +7,6 @@ import time
 from sklearn.externals import joblib
 import sys
 
-
 class NeuralNetworkFit():
     """
     a neural network made to fit to the MNIST dataset by using the scikit learn package
@@ -30,16 +29,11 @@ class NeuralNetworkFit():
         self.MODELFILENAME = "NN_Model.pkl"  # the file to store the weights in
         self.HIDDEN_LAYER_SIZE = (1000, 500, 100)
 
-        # refit:   if True: NN model will refit itself (takes time), if False: NN model will use past fitting data
-        # if the past fitting data does not exist, NN model will refit itself
-        refit = sys.argv[0]
-
-        if (not os.path.isfile(self.MODELFILENAME)) or (refit):
+        # NN model will fit if the past fitting data does not exist
+        if not os.path.isfile(self.MODELFILENAME):
             self.fit()
 
         # else do nothing as the NN model data will be loaded in NN_Predict
-
-        print("Neural Network Initialized")
 
     def fit(self):
         """
@@ -133,7 +127,10 @@ class NeuralNetworkFit():
         return inputs, outputs
 
 
-NeuralNetworkFit()  # do the init command
-print("it works")
-with open("test.txt", 'w') as file:
-    file.write("it works")
+def main():
+    NeuralNetworkFit()  # do the init command
+    print("Neural Network Initialized") # let the java script know that it was successful
+
+
+if __name__ == '__main__':
+    main()

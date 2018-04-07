@@ -10,7 +10,9 @@ public class Main {
         //initialize the NN
         try {
             Process p = Runtime.getRuntime().exec(
-                    "python C:/Users/Kurti/IdeaProjects/PaintASCII/src/NN_Init.py");
+                    "python3 " + System.getProperty("user.dir") + "\\src" + "\\NN_Init.py");
+
+            //check if script was successful
             Scanner reader = new Scanner(p.getInputStream());
             System.out.println(reader.nextLine());
         } catch (IOException e) {

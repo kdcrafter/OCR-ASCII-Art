@@ -101,10 +101,10 @@ public class Interface {
 
             try {
                 Process p = Runtime.getRuntime().exec(
-                    "python C:/Users/Kurti/IdeaProjects/PaintASCII/src/NN_Predict.py");
+                    "python3 " + System.getProperty("user.dir") + "\\NN_Predict.py");
                 Scanner reader = new Scanner(p.getInputStream());
-                return reader.nextLine();
 
+                return reader.nextLine();
             } catch (IOException e) {
                 e.printStackTrace();
                 return "error";
