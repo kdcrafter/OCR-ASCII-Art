@@ -29,11 +29,7 @@ class NeuralNetworkFit():
         self.MODELFILENAME = "NN_Model.pkl"  # the file to store the weights in
         self.HIDDEN_LAYER_SIZE = (1000, 500, 100)
 
-        # NN model will fit if the past fitting data does not exist
-        if not os.path.isfile(self.MODELFILENAME):
-            self.fit()
-
-        # else do nothing as the NN model data will be loaded in NN_Predict
+        self.fit()
 
     def fit(self):
         """
@@ -44,7 +40,7 @@ class NeuralNetworkFit():
 
         # get the data
         self.trainInputs, self.trainOutputs = self.getTrainData()
-        self.testInputs, self.testOutputs = self.getTestData()
+        #self.testInputs, self.testOutputs = self.getTestData()
 
         """-----would only save about 2 minutes if added in-----"""
         # #lower resolution of images/inputs
@@ -62,16 +58,20 @@ class NeuralNetworkFit():
 
         # normalize data
         self.trainInputs = self.trainInputs / 255.0
-        self.testInputs = self.testInputs / 255.0
+        #self.testInputs = self.testInputs / 255.0
+
+        #train only the first 500 data points
+        # self.trainInputs = self.trainInputs[:500]
+        # self.trainOutputs = self.trainOutputs[:500]
 
         # fit the data
         self.clf = MLPClassifier(solver='lbfgs', alpha=1e-5,
                                  hidden_layer_sizes=self.HIDDEN_LAYER_SIZE)  # may take a significant amount of time
 
-        # print("start fitting NN")
-        # start = time.time()
+        print("start fitting NN")
+        start = time.time()
         self.clf.fit(self.trainInputs, self.trainOutputs)
-        # print("end fitting NN: ", time.time() - start)
+        print("end fitting NN: ", time.time() - start)
 
         # store the data so NN doesn't have to refit later
         joblib.dump(self.clf, self.MODELFILENAME)
@@ -81,6 +81,8 @@ class NeuralNetworkFit():
         get the training data from the MNIST dataset in the form of numpy arrays
         each element in the inputs array is a 28 x 28 numpy or a image
         each element in the outputs array is a integer form 0-9 or a label
+
+        note: 0 values should be white and 255 values should be black
 
         :return: the inputs and the outputs of the neural network as a numpy array
         """
@@ -106,6 +108,8 @@ class NeuralNetworkFit():
         get the testing data from the MNIST dataset in the form of numpy arrays
         each element in the inputs array is a 28 x 28 numpy or a image
         each element in the outputs array is a integer form 0-9 or a label
+
+        note: 0 values should be white and 255 values should be black
 
         :return: the inputs and the outputs of the neural network as a numpy array
         """
