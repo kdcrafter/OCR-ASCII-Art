@@ -84,4 +84,11 @@ public class Canvas extends JPanel {
 
         //don't do anything if draw hasn't yet been initialized
     }
+
+    /*
+     * get the drawing on the canvas
+     */
+    public Image getCanvasImage() {
+        return image;
+    }
 }

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.image.BufferedImage;
@@ -97,11 +98,21 @@ public class Interface {
      */
     private String toText() {
         if (canvas != null) { //if drawing has been instantiated
-            BufferedImage img = new BufferedImage(canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+            //get image from canvas
+            BufferedImage canvasImg = (BufferedImage) canvas.getCanvasImage();
 
+            //save image
+            try {
+                File imgFile = new File(System.getProperty("user.dir") + "\\src" + "\\Drawing.png");
+                ImageIO.write(canvasImg, "png", imgFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //get text version from python script
             try {
                 Process p = Runtime.getRuntime().exec(
-                    "python3 " + System.getProperty("user.dir") + "\\NN_Predict.py");
+                    "python3 " + System.getProperty("user.dir") + "\\src" + "\\NN_Predict.py");
                 Scanner reader = new Scanner(p.getInputStream());
 
                 return reader.nextLine();
