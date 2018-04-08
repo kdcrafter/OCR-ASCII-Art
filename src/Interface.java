@@ -16,8 +16,14 @@ public class Interface {
     //the entire interface
     private JFrame frame;
 
-    //where the user draws stuff on the left of the interface
-    private Canvas canvas;
+    //left side of the gui
+    private JPanel left;
+    private JTextField rows;
+    private JLabel rowsLabel;
+    private JTextField columns;
+    private JLabel columnsLabel;
+    private Canvas canvas; //where the user draws stuff on the left of the interface
+
 
     //the center components to clear the canvas and activate resultText
     private JPanel center;
@@ -51,16 +57,51 @@ public class Interface {
         //layout.setHgap(50);
         frame.setLayout(layout);
 
-        //add components
-        canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(900, 900));
-        frame.add(canvas, BorderLayout.LINE_START); //put canvas on left side
+        //add left side
+        left = new JPanel();
+        left.setPreferredSize(new Dimension(900, 900));
+        left.setLayout(new FlowLayout());
 
+        Font numInputFont = new Font("SansSerif", Font.PLAIN, 30);
+        Font labelFont = new Font("SansSerif", Font.PLAIN, 40);
+
+        rowsLabel = new JLabel();
+        rowsLabel.setPreferredSize(new Dimension(300, 50));
+        rowsLabel.setFont(labelFont);
+        rowsLabel.setText("rows");
+        left.add(rowsLabel);
+
+        rows = new JTextField();
+        rows.setPreferredSize(new Dimension(500, 50));
+        rows.setFont(numInputFont);
+        left.add(rows); //add text on right side
+
+        columnsLabel = new JLabel();
+        columnsLabel.setPreferredSize(new Dimension(300, 50));
+        columnsLabel.setFont(labelFont);
+        columnsLabel.setText("columns");
+        left.add(columnsLabel);
+
+        columns = new JTextField();
+        columns.setPreferredSize(new Dimension(500, 50));
+        columns.setFont(numInputFont);
+        left.add(columns); //add text on right side
+
+        canvas = new Canvas();
+        canvas.setPreferredSize(new Dimension(800, 800));
+        left.add(canvas); //put canvas on left side
+
+        frame.add(left, BorderLayout.LINE_START);
+
+        //add right side
         resultText = new JTextField();
         resultText.setPreferredSize(new Dimension(900, 900));
+        Font largeFont = new Font("SansSerif", Font.BOLD, 200);
+        resultText.setFont(largeFont);
         frame.add(resultText, BorderLayout.LINE_END); //add text on right side
 
-        center = new JPanel();  //create a center panel
+        //add center
+        center = new JPanel();
         center.setPreferredSize(new Dimension(100, 900));
 
         //TODO: be able to change font size (automatically or manually)
