@@ -42,7 +42,7 @@ public class Interface {
      */
     private void createInterface() {
         //create the GUI
-        frame = new JFrame("Paint Number Converter");
+        frame = new JFrame("OCR ASCII Art");
 
         //edit the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
