@@ -18,4 +18,4 @@ Python Packages:
 These Python packages are best installed with pip.
 
 # Running the Program
-To run the program, first compile Main.java, Interface.java, and Canvas.java. Then run the compiled program to cause the Java interface to appear. The "main" function of the program is in Main.java.
+Before running the program, be sure to initialize the machine learning model. This can be done by running the NN_Init.py script by typing "python NN_Init.py". To start the interface, first compile Main.java, Interface.java, and Canvas.java. Then run the compiled program to cause the Java interface to appear. The "main" function of the program is in Main.java.
