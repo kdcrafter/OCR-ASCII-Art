@@ -18,10 +18,6 @@ public class Interface {
 
     //left side of the gui
     private JPanel left;
-    private JTextField rows;
-    private JLabel rowsLabel;
-    private JTextField columns;
-    private JLabel columnsLabel;
     private Canvas canvas; //where the user draws stuff on the left of the interface
 
 
@@ -64,28 +60,6 @@ public class Interface {
 
         Font numInputFont = new Font("SansSerif", Font.PLAIN, 30);
         Font labelFont = new Font("SansSerif", Font.PLAIN, 40);
-
-        rowsLabel = new JLabel();
-        rowsLabel.setPreferredSize(new Dimension(300, 50));
-        rowsLabel.setFont(labelFont);
-        rowsLabel.setText("rows");
-        left.add(rowsLabel);
-
-        rows = new JTextField();
-        rows.setPreferredSize(new Dimension(500, 50));
-        rows.setFont(numInputFont);
-        left.add(rows); //add text on right side
-
-        columnsLabel = new JLabel();
-        columnsLabel.setPreferredSize(new Dimension(300, 50));
-        columnsLabel.setFont(labelFont);
-        columnsLabel.setText("columns");
-        left.add(columnsLabel);
-
-        columns = new JTextField();
-        columns.setPreferredSize(new Dimension(500, 50));
-        columns.setFont(numInputFont);
-        left.add(columns); //add text on right side
 
         canvas = new Canvas();
         canvas.setPreferredSize(new Dimension(800, 800));
@@ -152,8 +126,8 @@ public class Interface {
 
             //get text version from python script
             try {
-                Process p = Runtime.getRuntime().exec(
-                    "python3 " + System.getProperty("user.dir") + "\\src" + "\\NN_Predict.py");
+                System.out.println(System.getProperty("user.dir") + "\\src" + "\\NN_Predict.py");
+                Process p = Runtime.getRuntime().exec("python " + System.getProperty("user.dir") + "\\src" + "\\NN_Predict.py");
                 Scanner reader = new Scanner(p.getInputStream());
 
                 return reader.nextLine();
